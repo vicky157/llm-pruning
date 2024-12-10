@@ -1,9 +1,5 @@
-## What Matters in Transformers? Not All Attention is Needed
 
-**[Shwai He](https://shwai-he.github.io/)\*, Guoheng Sun\*, Zheyu Shen, [Ang Li](https://www.ang-li.com/)**
-
-**This is the official implementation of the paper [What Matters in Transformers? Not All Attention is Needed
-](https://arxiv.org/abs/2406.15786).** We conduct extensive experiments and analysis to reveal the architecture redundancy within transformer-based Large Language Models (LLMs). 
+We conduct extensive experiments and analysis to reveal the architecture redundancy within transformer-based Large Language Models (LLMs). 
 Pipeline for Block Drop and Layer Drop is based on the [LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory).
 The quantization is implemented based on the [AutoAWQ](https://github.com/casper-hansen/AutoAWQ) and [AutoGPTQ](https://github.com/AutoGPTQ/AutoGPTQ).
 
@@ -15,10 +11,6 @@ Our findings are informative for the ML community and provide insights for futur
 
 ![Layer-Drop.svg](Layer_Drop.svg)
 
-## News
-- **Nov 2024**: Updated the code to support additional language models, including [Gemma2](https://arxiv.org/abs/2408.00118), [Baichuan](https://arxiv.org/abs/2309.10305), [DeepSeek](https://arxiv.org/abs/2401.06066), [Yi](https://arxiv.org/abs/2403.04652), [Solar](https://arxiv.org/abs/2312.15166). Yi and Solar refer to Llama, and we checked their availability.
-- **Sep 2024**: Released checkpoints for [dropped models](https://huggingface.co/collections/LLM-Drop/llm-drop-66dde616140f04eb18424a0a) using Block Drop and Layer Drop.  
-- **Jun 2024**: Published preprint on [arXiv](https://arxiv.org/abs/2406.15786) along with the related codebase.
 
 
 ## Quick Start
@@ -26,28 +18,13 @@ Our findings are informative for the ML community and provide insights for futur
 #### Installation
 
 ```bash
-conda create -n llm-drop python=3.10
-conda activate llm-drop
-
-git clone https://github.com/CASE-Lab-UMD/LLM-Drop
-
-#For Dropping:
-cd ./LLM-Drop
-pip install -e .
-
-#For Quantization:
-cd ./src/llmtuner/compression/quantization/AutoAWQ
-pip install -e .
-
-cd ./src/llmtuner/compression/quantization/AutoAWQ/AutoAWQ_kernels
-pip install -e .
-
-cd ./src/llmtuner/compression/quantization/AutoGPTQ
-pip install -vvv --no-build-isolation -e .
+python3 -m venv env
+source env/bin/activate
+pip3 install -r requirements.txt
 ```
 
 ## Prepare Models
-Download the models (e.g., Mistral-7B, Llama-2 and Llama-3) from HuggingFace. We create [new config and modeling files](https://github.com/Shwai-He/LLM-Drop/tree/main/src/llmtuner/compression/prune/models) to represent the models by layers or blocks. 
+Download the models (e.g., Mistral-7B, Llama-2 and Llama-3) from HuggingFace. We create [new config and modeling files]([(https://github.com/vicky157/llm-pruning/tree/main/src/llmtuner/compression/prune/models)]) to represent the models by layers or blocks. 
 The key ``auto_map`` needs to be added in the config.json to utilize the new files. 
 Take Mistral-7B as an example: 
 ```json
@@ -116,26 +93,4 @@ bash scripts/quantization/awq.sh
 bash scripts/quantization/gptq.sh
 ```
 
-[//]: # (## Experiments)
 
-## Citation
-
-```latex
-@misc{he2024matterstransformersattentionneeded,
-      title={What Matters in Transformers? Not All Attention is Needed}, 
-      author={Shwai He and Guoheng Sun and Zheyu Shen and Ang Li},
-      year={2024},
-      eprint={2406.15786},
-      archivePrefix={arXiv},
-      primaryClass={cs.LG},
-      url={https://arxiv.org/abs/2406.15786}, 
-}
-```
-
-## Contact Us
-
-If you have any questions, please contact:
-
-- Shwai He: shwaihe@umd.edu
-
-- Guoheng Sun: ghsun@umd.edu
